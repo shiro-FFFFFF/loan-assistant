@@ -1,0 +1,882 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-03T17:18:04.350Z",
+  "totalDocuments": 14,
+  "documents": [
+    {
+      "id": "doc_c99f42d509b9",
+      "fileName": "auto-loans-guide.txt",
+      "title": "# Auto Loans Guide",
+      "wordCount": 1098,
+      "chunkCount": 9,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 78,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 45,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 30,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "application process",
+          "relevance": 15,
+          "keywords": [
+            "apply",
+            "application",
+            "submit",
+            "approval",
+            "requirements"
+          ]
+        },
+        {
+          "name": "business loans",
+          "relevance": 6,
+          "keywords": [
+            "business",
+            "commercial",
+            "enterprise",
+            "sba"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.337Z"
+    },
+    {
+      "id": "doc_de8e143bc82b",
+      "fileName": "bad-credit-loans.txt",
+      "title": "# Bad Credit Loans Guide",
+      "wordCount": 1307,
+      "chunkCount": 11,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 135,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 38,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 27,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "application process",
+          "relevance": 23,
+          "keywords": [
+            "apply",
+            "application",
+            "submit",
+            "approval",
+            "requirements"
+          ]
+        },
+        {
+          "name": "collateral",
+          "relevance": 17,
+          "keywords": [
+            "collateral",
+            "secured",
+            "asset",
+            "property"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.339Z"
+    },
+    {
+      "id": "doc_20d31a1d48fa",
+      "fileName": "business-loans-guide.txt",
+      "title": "# Business Loans Guide",
+      "wordCount": 1262,
+      "chunkCount": 11,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 76,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "business loans",
+          "relevance": 61,
+          "keywords": [
+            "business",
+            "commercial",
+            "enterprise",
+            "sba"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 31,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 23,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "application process",
+          "relevance": 21,
+          "keywords": [
+            "apply",
+            "application",
+            "submit",
+            "approval",
+            "requirements"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.340Z"
+    },
+    {
+      "id": "doc_c0028841175c",
+      "fileName": "credit-score-loan-approval.txt",
+      "title": "# Credit Score and Loan Approval Guide",
+      "wordCount": 1016,
+      "chunkCount": 9,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 81,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "credit score",
+          "relevance": 25,
+          "keywords": [
+            "credit score",
+            "fico",
+            "credit report",
+            "credit history"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 22,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 22,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "application process",
+          "relevance": 21,
+          "keywords": [
+            "apply",
+            "application",
+            "submit",
+            "approval",
+            "requirements"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.341Z"
+    },
+    {
+      "id": "doc_de47fe549c5f",
+      "fileName": "debt-consolidation-guide.txt",
+      "title": "# Debt Consolidation Guide",
+      "wordCount": 1042,
+      "chunkCount": 9,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 53,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 43,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 31,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "debt consolidation",
+          "relevance": 27,
+          "keywords": [
+            "consolidation",
+            "merge",
+            "combine",
+            "pay off"
+          ]
+        },
+        {
+          "name": "mortgage",
+          "relevance": 11,
+          "keywords": [
+            "mortgage",
+            "home",
+            "property",
+            "real estate"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.342Z"
+    },
+    {
+      "id": "doc_8d9653c1276f",
+      "fileName": "home-equity-loans.txt",
+      "title": "# Home Equity Loans Guide",
+      "wordCount": 1395,
+      "chunkCount": 12,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 76,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "mortgage",
+          "relevance": 66,
+          "keywords": [
+            "mortgage",
+            "home",
+            "property",
+            "real estate"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 59,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 46,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "application process",
+          "relevance": 15,
+          "keywords": [
+            "apply",
+            "application",
+            "submit",
+            "approval",
+            "requirements"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.343Z"
+    },
+    {
+      "id": "doc_c209acad4283",
+      "fileName": "interest-rates-apr.txt",
+      "title": "# Understanding Interest Rates and APR",
+      "wordCount": 577,
+      "chunkCount": 5,
+      "topics": [
+        {
+          "name": "interest rates",
+          "relevance": 65,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "loan basics",
+          "relevance": 22,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 17,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "application process",
+          "relevance": 4,
+          "keywords": [
+            "apply",
+            "application",
+            "submit",
+            "approval",
+            "requirements"
+          ]
+        },
+        {
+          "name": "collateral",
+          "relevance": 4,
+          "keywords": [
+            "collateral",
+            "secured",
+            "asset",
+            "property"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.343Z"
+    },
+    {
+      "id": "doc_d47b2b3b1ec2",
+      "fileName": "loan-application-process.txt",
+      "title": "# Loan Application Process Guide",
+      "wordCount": 742,
+      "chunkCount": 7,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 30,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "application process",
+          "relevance": 25,
+          "keywords": [
+            "apply",
+            "application",
+            "submit",
+            "approval",
+            "requirements"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 14,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 5,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "credit score",
+          "relevance": 5,
+          "keywords": [
+            "credit score",
+            "fico",
+            "credit report",
+            "credit history"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.344Z"
+    },
+    {
+      "id": "doc_cae3b17796ce",
+      "fileName": "loan-basics-guide.txt",
+      "title": "# Personal Loan Basics Guide",
+      "wordCount": 474,
+      "chunkCount": 4,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 43,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 17,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 15,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "personal loans",
+          "relevance": 13,
+          "keywords": [
+            "personal loan",
+            "unsecured",
+            "signature loan"
+          ]
+        },
+        {
+          "name": "credit score",
+          "relevance": 7,
+          "keywords": [
+            "credit score",
+            "fico",
+            "credit report",
+            "credit history"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.345Z"
+    },
+    {
+      "id": "doc_109aa1506c8b",
+      "fileName": "loan-calculators-formulas.txt",
+      "title": "# Loan Calculators and Formulas",
+      "wordCount": 860,
+      "chunkCount": 7,
+      "topics": [
+        {
+          "name": "repayment",
+          "relevance": 37,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "loan calculators",
+          "relevance": 37,
+          "keywords": [
+            "calculate",
+            "calculator",
+            "formula",
+            "payment amount"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 36,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "loan basics",
+          "relevance": 25,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "mortgage",
+          "relevance": 5,
+          "keywords": [
+            "mortgage",
+            "home",
+            "property",
+            "real estate"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.345Z"
+    },
+    {
+      "id": "doc_4d3782bf7e02",
+      "fileName": "loan-default-prevention.txt",
+      "title": "# Loan Default Prevention Guide",
+      "wordCount": 1403,
+      "chunkCount": 13,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 54,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 45,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 28,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "debt consolidation",
+          "relevance": 13,
+          "keywords": [
+            "consolidation",
+            "merge",
+            "combine",
+            "pay off"
+          ]
+        },
+        {
+          "name": "collateral",
+          "relevance": 11,
+          "keywords": [
+            "collateral",
+            "secured",
+            "asset",
+            "property"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.347Z"
+    },
+    {
+      "id": "doc_58dc90f0962b",
+      "fileName": "loan-glossary-terms.txt",
+      "title": "# Loan Glossary and Terms",
+      "wordCount": 517,
+      "chunkCount": 4,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 58,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 25,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 21,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "collateral",
+          "relevance": 14,
+          "keywords": [
+            "collateral",
+            "secured",
+            "asset",
+            "property"
+          ]
+        },
+        {
+          "name": "mortgage",
+          "relevance": 9,
+          "keywords": [
+            "mortgage",
+            "home",
+            "property",
+            "real estate"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.347Z"
+    },
+    {
+      "id": "doc_049af6338820",
+      "fileName": "mortgage-loans-guide.txt",
+      "title": "# Mortgage Loans Guide",
+      "wordCount": 1012,
+      "chunkCount": 8,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 55,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "mortgage",
+          "relevance": 34,
+          "keywords": [
+            "mortgage",
+            "home",
+            "property",
+            "real estate"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 33,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 30,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "collateral",
+          "relevance": 15,
+          "keywords": [
+            "collateral",
+            "secured",
+            "asset",
+            "property"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.348Z"
+    },
+    {
+      "id": "doc_ca3af0792d21",
+      "fileName": "student-loans-guide.txt",
+      "title": "# Student Loans Guide",
+      "wordCount": 1398,
+      "chunkCount": 13,
+      "topics": [
+        {
+          "name": "loan basics",
+          "relevance": 86,
+          "keywords": [
+            "loan",
+            "borrowing",
+            "credit",
+            "lender",
+            "borrower"
+          ]
+        },
+        {
+          "name": "repayment",
+          "relevance": 70,
+          "keywords": [
+            "repayment",
+            "payment",
+            "schedule",
+            "term"
+          ]
+        },
+        {
+          "name": "student loans",
+          "relevance": 50,
+          "keywords": [
+            "student",
+            "education",
+            "school",
+            "tuition"
+          ]
+        },
+        {
+          "name": "interest rates",
+          "relevance": 44,
+          "keywords": [
+            "interest",
+            "rate",
+            "apr",
+            "apy",
+            "percentage"
+          ]
+        },
+        {
+          "name": "application process",
+          "relevance": 13,
+          "keywords": [
+            "apply",
+            "application",
+            "submit",
+            "approval",
+            "requirements"
+          ]
+        }
+      ],
+      "createdAt": "2025-11-03T17:18:04.349Z"
+    }
+  ]
+}
