@@ -12,15 +12,26 @@ from PIL import Image
 import fitz  # PyMuPDF for PDF handling
 import sqlite3
 import uuid
+from dotenv import load_dotenv, find_dotenv
 
-# Watsonx.ai configuration - using the working credentials from test.py
-API_KEY         = "0tTW2LssYseQ7DNvTv84c5TbpWK_ttxwRJaurmg47eKS"
-PROJECT_ID      = "6344e97c-4a5a-4585-af06-e379c55b855b"
-MODEL_ID        = "meta-llama/llama-3-3-70b-instruct"
-VISION_MODEL_ID = "meta-llama/llama-3-2-90b-vision-instruct"
-IAM_URL         = "https://iam.cloud.ibm.com/identity/token"
-WATSONX_API_URL = "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-03-29"
-VISION_API_URL  = "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-03-29"
+# Load environment variables
+dotenv_path = find_dotenv()
+if not dotenv_path:
+    dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+
+load_dotenv(dotenv_path)
+
+# Watsonx.ai configuration
+API_KEY = os.getenv("WATSONX_API_KEY")
+if not API_KEY:
+    raise RuntimeError("WATSONX_API_KEY environment variable is not set. Add it to your environment or .env file.")
+
+PROJECT_ID = os.getenv("WATSONX_PROJECT_ID", "6344e97c-4a5a-4585-af06-e379c55b855b")
+MODEL_ID = os.getenv("WATSONX_MODEL_ID", "meta-llama/llama-3-3-70b-instruct")
+VISION_MODEL_ID = os.getenv("WATSONX_VISION_MODEL_ID", "meta-llama/llama-3-2-90b-vision-instruct")
+IAM_URL = os.getenv("WATSONX_IAM_URL", "https://iam.cloud.ibm.com/identity/token")
+WATSONX_API_URL = os.getenv("WATSONX_API_URL", "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-03-29")
+VISION_API_URL = os.getenv("WATSONX_VISION_API_URL", "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-03-29")
 
 # Setup for Streamlit app
 st.set_page_config(page_title="Professional Loan Assistant", layout="centered")

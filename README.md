@@ -14,13 +14,21 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## 3. Load reference documents (optional but recommended)
+## 3. Configure Watsonx credentials
+Copy the example file and fill in your API key (keep the real `.env` out of version control):
+```bash
+copy .env.example .env   # Windows
+# cp .env.example .env   # macOS/Linux
+```
+Edit `.env` to set `WATSONX_API_KEY` (and adjust other values if needed).
+
+## 4. Load reference documents (optional but recommended)
 This populates the shared loan guides into `document_index/documents.db`:
 ```bash
 python load_reference_documents.py
 ```
 
-## 4. Start the Streamlit app
+## 5. Start the Streamlit app
 ```bash
 streamlit run watsonx_chat.py
 ```
