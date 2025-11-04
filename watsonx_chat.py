@@ -14,24 +14,60 @@ import sqlite3
 import uuid
 from dotenv import load_dotenv, find_dotenv
 
-# Load environment variables
+# Load environment variables from .env when available
+dotenv_loaded = False
 dotenv_path = find_dotenv()
-if not dotenv_path:
-    dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+if dotenv_path:
+    dotenv_loaded = load_dotenv(dotenv_path)
+else:
+    fallback_dotenv = os.path.join(os.path.dirname(__file__), ".env")
+    if os.path.exists(fallback_dotenv):
+        dotenv_loaded = load_dotenv(fallback_dotenv)
 
-load_dotenv(dotenv_path)
+DEFAULT_CONFIG = {
+    "WATSONX_PROJECT_ID": "6344e97c-4a5a-4585-af06-e379c55b855b",
+    "WATSONX_MODEL_ID": "meta-llama/llama-3-3-70b-instruct",
+    "WATSONX_VISION_MODEL_ID": "meta-llama/llama-3-2-90b-vision-instruct",
+    "WATSONX_IAM_URL": "https://iam.cloud.ibm.com/identity/token",
+    "WATSONX_API_URL": "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-03-29",
+    "WATSONX_VISION_API_URL": "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-03-29",
+}
+
+
+def resolve_config_value(key: str, *, default: Optional[str] = None, required: bool = False) -> str:
+    env_value = os.getenv(key)
+    value = env_value
+
+    if not value and not dotenv_loaded:
+        try:
+            value = st.secrets[key]
+        except KeyError:
+            value = None
+        except Exception:
+            value = None
+
+    if not value:
+        value = default
+
+    if value and not env_value:
+        os.environ[key] = value
+
+    if required and not value:
+        raise RuntimeError(
+            f"{key} is not configured. Provide it via a .env file or Streamlit secrets (see https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management)."
+        )
+
+    return value or ""
+
 
 # Watsonx.ai configuration
-API_KEY = os.getenv("WATSONX_API_KEY")
-if not API_KEY:
-    raise RuntimeError("WATSONX_API_KEY environment variable is not set. Add it to your environment or .env file.")
-
-PROJECT_ID = os.getenv("WATSONX_PROJECT_ID", "6344e97c-4a5a-4585-af06-e379c55b855b")
-MODEL_ID = os.getenv("WATSONX_MODEL_ID", "meta-llama/llama-3-3-70b-instruct")
-VISION_MODEL_ID = os.getenv("WATSONX_VISION_MODEL_ID", "meta-llama/llama-3-2-90b-vision-instruct")
-IAM_URL = os.getenv("WATSONX_IAM_URL", "https://iam.cloud.ibm.com/identity/token")
-WATSONX_API_URL = os.getenv("WATSONX_API_URL", "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-03-29")
-VISION_API_URL = os.getenv("WATSONX_VISION_API_URL", "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-03-29")
+API_KEY = resolve_config_value("WATSONX_API_KEY", required=True)
+PROJECT_ID = resolve_config_value("WATSONX_PROJECT_ID", default=DEFAULT_CONFIG["WATSONX_PROJECT_ID"])
+MODEL_ID = resolve_config_value("WATSONX_MODEL_ID", default=DEFAULT_CONFIG["WATSONX_MODEL_ID"])
+VISION_MODEL_ID = resolve_config_value("WATSONX_VISION_MODEL_ID", default=DEFAULT_CONFIG["WATSONX_VISION_MODEL_ID"])
+IAM_URL = resolve_config_value("WATSONX_IAM_URL", default=DEFAULT_CONFIG["WATSONX_IAM_URL"])
+WATSONX_API_URL = resolve_config_value("WATSONX_API_URL", default=DEFAULT_CONFIG["WATSONX_API_URL"])
+VISION_API_URL = resolve_config_value("WATSONX_VISION_API_URL", default=DEFAULT_CONFIG["WATSONX_VISION_API_URL"])
 
 # Setup for Streamlit app
 st.set_page_config(page_title="Professional Loan Assistant", layout="centered")
