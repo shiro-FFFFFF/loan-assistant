@@ -49,6 +49,12 @@ if "processed_files" not in st.session_state:
 if "document_index" not in st.session_state:
     st.session_state.document_index = {}
 
+if "document_uploader_key" not in st.session_state:
+    st.session_state.document_uploader_key = 0
+
+if "document_uploader_reset" not in st.session_state:
+    st.session_state.document_uploader_reset = False
+
 # Initialize database
 def init_database():
     conn = sqlite3.connect(DB_PATH)
@@ -484,10 +490,14 @@ with st.sidebar:
     # File upload section
     st.subheader("📄 Document Analysis")
     st.write("Upload your loan documents for personalized analysis:")
+    if st.session_state.get("document_uploader_reset"):
+        st.session_state.document_uploader_key += 1
+        st.session_state.document_uploader_reset = False
     new_uploaded_files = st.file_uploader(
         "Upload loan documents (PDF, Images, Text files)",
         type=['pdf', 'png', 'jpg', 'jpeg', 'gif', 'bmp', 'txt', 'md'],
-        accept_multiple_files=True
+        accept_multiple_files=True,
+        key=f"document_uploader_{st.session_state.document_uploader_key}"
     )
     
     # Process new files and add to queue (no auto-analysis to prevent loops)
@@ -521,6 +531,7 @@ with st.sidebar:
                         ]
                         
                         st.success(f"✅ {new_file.name} analyzed successfully!")
+                        st.session_state.document_uploader_reset = True
                         
                 except Exception as e:
                     st.error(f"❌ Error analyzing {new_file.name}: {str(e)}")
@@ -531,6 +542,9 @@ with st.sidebar:
                         f for f in st.session_state.uploaded_files_queue
                         if f.name != new_file.name
                     ]
+                    st.session_state.document_uploader_reset = True
+            if st.session_state.document_uploader_reset:
+                st.rerun()
     
     # Display files in queue with individual remove buttons
     if st.session_state.uploaded_files_queue:
