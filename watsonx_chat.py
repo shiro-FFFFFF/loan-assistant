@@ -49,6 +49,9 @@ if "processed_files" not in st.session_state:
 if "document_index" not in st.session_state:
     st.session_state.document_index = {}
 
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
+
 if "document_uploader_key" not in st.session_state:
     st.session_state.document_uploader_key = 0
 
@@ -67,7 +70,8 @@ def init_database():
             content_type TEXT NOT NULL,
             upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             file_hash TEXT UNIQUE,
-            metadata TEXT
+            metadata TEXT,
+            session_id TEXT
         )
     ''')
     
@@ -80,6 +84,12 @@ def init_database():
             FOREIGN KEY (document_id) REFERENCES documents (id)
         )
     ''')
+
+    cursor.execute("PRAGMA table_info(documents)")
+    columns = [row[1] for row in cursor.fetchall()]
+    if "session_id" not in columns:
+        cursor.execute("ALTER TABLE documents ADD COLUMN session_id TEXT")
+
     conn.commit()
     conn.close()
 
@@ -261,21 +271,22 @@ def simple_rerank(query: str, chunks: List[Tuple[str, int]], top_k: int = 3) -> 
     chunk_scores.sort(key=lambda x: x[2], reverse=True)
     return [(text, idx) for text, idx, score in chunk_scores[:top_k]]
 
-def store_document(document_id: str, filename: str, content: str, content_type: str, metadata: Dict = None):
+def store_document(document_id: str, filename: str, content: str, content_type: str, metadata: Dict = None, session_id: Optional[str] = None):
     """Store document in database"""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
     file_hash = compute_content_hash(content)
     metadata_json = json.dumps(metadata or {})
+    session_id = session_id or st.session_state.get("session_id")
     
     try:
         # Store document
         cursor.execute('''
             INSERT OR REPLACE INTO documents 
-            (id, filename, content, content_type, file_hash, metadata)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (document_id, filename, content, content_type, file_hash, metadata_json))
+            (id, filename, content, content_type, file_hash, metadata, session_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (document_id, filename, content, content_type, file_hash, metadata_json, session_id))
         
         # Chunk and store text content
         if content_type in ['text', 'pdf', 'image']:
@@ -291,13 +302,15 @@ def store_document(document_id: str, filename: str, content: str, content_type: 
         conn.commit()
         
         # Update session state
-        st.session_state.document_index[document_id] = {
-            'filename': filename,
-            'content_type': content_type,
-            'content': content,
-            'metadata': metadata,
-            'upload_time': datetime.now().isoformat()
-        }
+        if session_id == st.session_state.get("session_id") or not metadata or metadata.get("source") == "reference_library":
+            st.session_state.document_index[document_id] = {
+                'filename': filename,
+                'content_type': content_type,
+                'content': content,
+                'metadata': metadata,
+                'upload_time': datetime.now().isoformat(),
+                'session_id': session_id
+            }
         
     except Exception as e:
         st.error(f"Error storing document: {str(e)}")
@@ -311,15 +324,17 @@ def retrieve_relevant_content(query: str, top_k: int = 3) -> List[Dict]:
     
     try:
         # Get all chunks with source priority
+        current_session = st.session_state.get('session_id')
         cursor.execute('''
-            SELECT c.chunk_text, d.filename, d.content_type, d.metadata,
+            SELECT c.chunk_text, d.filename, d.content_type, d.metadata, d.session_id,
                    CASE
                        WHEN d.metadata LIKE '%"source": "reference_library"%' THEN 1
                        ELSE 0
                    END as is_user_upload
             FROM chunks c
             JOIN documents d ON c.document_id = d.id
-        ''')
+            WHERE d.session_id IS NULL OR d.session_id = ?
+        ''', (current_session,))
         
         chunks = []
         for row in cursor.fetchall():
@@ -328,7 +343,8 @@ def retrieve_relevant_content(query: str, top_k: int = 3) -> List[Dict]:
                 'filename': row[1],
                 'content_type': row[2],
                 'metadata': json.loads(row[3]) if row[3] else {},
-                'is_user_upload': row[4] == 0  # True for user uploads, False for reference documents
+                'session_id': row[4],
+                'is_user_upload': row[5] == 0  # True for user uploads, False for reference documents
             })
         
         conn.close()
@@ -580,11 +596,19 @@ with st.sidebar:
         st.info("No documents in queue. Upload files above to get started.")
     
     # Display analyzed documents
-    if st.session_state.document_index:
+    current_session = st.session_state.get("session_id")
+    visible_docs = {
+        doc_id: doc_info
+        for doc_id, doc_info in st.session_state.document_index.items()
+        if doc_info.get('session_id') == current_session
+        or (doc_info.get('metadata') or {}).get('source') == 'reference_library'
+    }
+
+    if visible_docs:
         st.markdown("---")
         st.subheader("📚 Analyzed Documents")
         
-        for doc_id, doc_info in st.session_state.document_index.items():
+        for doc_id, doc_info in visible_docs.items():
             with st.expander(f"{doc_info['filename']} ({doc_info['content_type']})"):
                 st.write(f"**Type:** {doc_info['content_type']}")
                 st.write(f"**Analyzed:** {doc_info['upload_time']}")

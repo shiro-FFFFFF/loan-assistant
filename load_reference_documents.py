@@ -61,8 +61,8 @@ def load_documents():
                 
                 cursor.execute('''
                     INSERT OR REPLACE INTO documents 
-                    (id, filename, content, content_type, file_hash, metadata)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    (id, filename, content, content_type, file_hash, metadata, session_id)
+                    VALUES (?, ?, ?, ?, ?, ?, NULL)
                 ''', (doc_id, filename, content, 'text', file_hash, metadata_json))
                 
                 # Chunk and store content
