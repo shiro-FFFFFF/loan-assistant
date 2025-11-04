@@ -14,7 +14,7 @@ import sqlite3
 import uuid
 
 # Watsonx.ai configuration - using the working credentials from test.py
-API_KEY         = "NJLshxQ69XRcK_BpAIQHKiWllkZtGUK3eh2uUt16q-Rd"
+API_KEY         = "0tTW2LssYseQ7DNvTv84c5TbpWK_ttxwRJaurmg47eKS"
 PROJECT_ID      = "6344e97c-4a5a-4585-af06-e379c55b855b"
 MODEL_ID        = "meta-llama/llama-3-3-70b-instruct"
 VISION_MODEL_ID = "meta-llama/llama-3-2-90b-vision-instruct"
@@ -40,8 +40,11 @@ DB_PATH = os.path.join(INDEX_DIR, "documents.db")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-if "uploaded_files" not in st.session_state:
-    st.session_state.uploaded_files = {}
+if "uploaded_files_queue" not in st.session_state:
+    st.session_state.uploaded_files_queue = []
+
+if "processed_files" not in st.session_state:
+    st.session_state.processed_files = set()
 
 if "document_index" not in st.session_state:
     st.session_state.document_index = {}
@@ -481,27 +484,92 @@ with st.sidebar:
     # File upload section
     st.subheader("📄 Document Analysis")
     st.write("Upload your loan documents for personalized analysis:")
-    uploaded_files = st.file_uploader(
+    new_uploaded_files = st.file_uploader(
         "Upload loan documents (PDF, Images, Text files)",
         type=['pdf', 'png', 'jpg', 'jpeg', 'gif', 'bmp', 'txt', 'md'],
         accept_multiple_files=True
     )
     
-    if uploaded_files:
-        for uploaded_file in uploaded_files:
-            if st.button(f"Analyze {uploaded_file.name}", key=f"process_{uploaded_file.name}"):
-                with st.spinner(f"Analyzing {uploaded_file.name}..."):
-                    result = process_uploaded_file(uploaded_file)
-                    st.session_state.messages.append({
-                        "role": "assistant",
-                        "content": result
-                    })
-                st.rerun()
+    # Process new files and add to queue (no auto-analysis to prevent loops)
+    files_to_add = []
+    if new_uploaded_files:
+        for new_file in new_uploaded_files:
+            # Only add files that haven't been processed before
+            if (new_file.name not in st.session_state.processed_files and
+                not any(existing_file.name == new_file.name for existing_file in st.session_state.uploaded_files_queue)):
+                files_to_add.append(new_file)
+        
+        # Add new files to queue
+        if files_to_add:
+            st.session_state.uploaded_files_queue.extend(files_to_add)
+            
+            # Auto-start analysis for each new file
+            for new_file in files_to_add:
+                try:
+                    with st.spinner(f"Auto-analyzing {new_file.name}..."):
+                        result = process_uploaded_file(new_file)
+                        st.session_state.messages.append({
+                            "role": "assistant",
+                            "content": result
+                        })
+                        
+                        # Mark file as processed and remove from queue
+                        st.session_state.processed_files.add(new_file.name)
+                        st.session_state.uploaded_files_queue = [
+                            f for f in st.session_state.uploaded_files_queue
+                            if f.name != new_file.name
+                        ]
+                        
+                        st.success(f"✅ {new_file.name} analyzed successfully!")
+                        
+                except Exception as e:
+                    st.error(f"❌ Error analyzing {new_file.name}: {str(e)}")
+                    # Mark file as processed to prevent re-analysis even if it failed
+                    st.session_state.processed_files.add(new_file.name)
+                    # Remove failed file from queue
+                    st.session_state.uploaded_files_queue = [
+                        f for f in st.session_state.uploaded_files_queue
+                        if f.name != new_file.name
+                    ]
     
-    # Display uploaded documents
+    # Display files in queue with individual remove buttons
+    if st.session_state.uploaded_files_queue:
+        st.markdown("---")
+        st.subheader("📋 Documents in Queue")
+        
+        # Create a copy of the queue to iterate over
+        queue_copy = st.session_state.uploaded_files_queue.copy()
+        
+        for uploaded_file in queue_copy:
+            col1, col2 = st.columns([3, 1])
+            
+            with col1:
+                st.write(f"📄 **{uploaded_file.name}**")
+                st.caption(f"Size: {uploaded_file.size} bytes")
+            
+            with col2:
+                if st.button("🗑️ Remove", key=f"remove_{uploaded_file.name}"):
+                    # Remove this specific file from queue
+                    st.session_state.uploaded_files_queue = [
+                        f for f in st.session_state.uploaded_files_queue
+                        if f.name != uploaded_file.name
+                    ]
+                    st.rerun()
+            
+            st.markdown("---")
+        
+        # Clear all files button
+        if st.button("🗑️ Clear All Files", type="secondary"):
+            st.session_state.uploaded_files_queue = []
+            st.rerun()
+    else:
+        st.info("No documents in queue. Upload files above to get started.")
+    
+    # Display analyzed documents
     if st.session_state.document_index:
         st.markdown("---")
-        st.subheader("📋 Your Documents")
+        st.subheader("📚 Analyzed Documents")
+        
         for doc_id, doc_info in st.session_state.document_index.items():
             with st.expander(f"{doc_info['filename']} ({doc_info['content_type']})"):
                 st.write(f"**Type:** {doc_info['content_type']}")
@@ -510,11 +578,20 @@ with st.sidebar:
                     st.write(f"**Details:** {doc_info['metadata'].get('pages', doc_info['metadata'].get('file_size', 'N/A'))}")
                 st.write(f"**Content:** {doc_info['content']}")
     
+    # Assistant settings
     st.markdown("---")
     st.header("⚙️ Assistant Settings")
-    if st.button("Clear Chat History"):
-        st.session_state.messages = []
-        st.rerun()
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Clear Chat History", use_container_width=True):
+            st.session_state.messages = []
+            st.rerun()
+    
+    with col2:
+        if st.button("Clear Analyzed Docs", use_container_width=True):
+            st.session_state.document_index = {}
+            st.rerun()
     
     st.markdown("---")
     st.markdown("**🔧 System Information:**")
@@ -522,9 +599,12 @@ with st.sidebar:
     st.markdown(f"- **Vision:** {VISION_MODEL_ID.split('/')[-1]}")
     st.markdown(f"- **Project:** {PROJECT_ID[:8]}...")
     st.markdown(f"- **Reference Docs:** 14 loan guides loaded")
+    st.markdown(f"- **Queue Files:** {len(st.session_state.uploaded_files_queue)}")
+    st.markdown(f"- **Processed Files:** {len(st.session_state.processed_files)}")
     
     if st.session_state.messages:
         st.markdown(f"- **Session Messages:** {len(st.session_state.messages)}")
+        st.markdown(f"- **Analyzed Docs:** {len(st.session_state.document_index)}")
 
 # Professional chat interface
 if prompt := st.chat_input("Ask me about loans, interest rates, applications, or analyze your documents..."):
