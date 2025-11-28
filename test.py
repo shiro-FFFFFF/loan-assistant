@@ -121,7 +121,7 @@ Your output must be professional, structured, and compatible with Markdown viewe
 """
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
-@st.cache_data
+@st.cache_data(ttl=3000)
 def get_iam_token(apikey: str) -> str:
     r = requests.post(
         IAM_URL,

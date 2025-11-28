@@ -148,7 +148,7 @@ for message in st.session_state.messages:
         st.write(message["content"])
 
 # Get IAM token function (from test.py)
-@st.cache_data
+@st.cache_data(ttl=3000)
 def get_iam_token(apikey: str) -> str:
     r = requests.post(
         IAM_URL,
